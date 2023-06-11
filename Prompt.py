@@ -78,9 +78,9 @@ def run(self):
 
     # Receive c
 
-    
 
-    from AI
+
+    # from AI
 
     AI_output = c
 
