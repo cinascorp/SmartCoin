@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Cinscorp
 pragma solidity ^0.8.18;
 
 contract SmartCoin {
@@ -8,6 +8,9 @@ contract SmartCoin {
     uint256 public constant decimals = 18;
     uint256 public totalSupply = 80000000;
     mapping(address => uint256) public balanceOf;
+
+    // Owner of the contract
+    address public owner;
 
     // Article Management
     struct Article {
@@ -22,10 +25,12 @@ contract SmartCoin {
     event Transfer(address indexed from, address indexed to, uint256 value);
     event ArticleSubmitted(address indexed user, string article);
     event ArticleVerified(address indexed user, uint256 articleIndex);
+    event Reward(address indexed user, uint256 amount); // New Reward event
 
     constructor(uint256 initialSupply) {
         totalSupply = initialSupply;
         balanceOf[msg.sender] = initialSupply;
+        owner = msg.sender; // Set the owner as the contract deployer
     }
 
     // Token Transfer Function
@@ -59,15 +64,14 @@ contract SmartCoin {
         emit ArticleVerified(user, articleIndex);
     }
 
-    // rewarding function 
+    // Rewarding function 
     function rewardUser(address user, uint256 amount) public {
-       require(msg.sender == owner, "Only the owner can reward users");
-       require(tokenBalance[owner] >= amount, "Insufficient balance");
+        require(msg.sender == owner, "Only the owner can reward users");
+        require(balanceOf[owner] >= amount, "Insufficient balance"); // Use balanceOf instead of tokenBalance
     
-       tokenBalance[owner] -= amount;
-       tokenBalance[user] += amount;
+        balanceOf[owner] -= amount;
+        balanceOf[user] += amount;
 
-    emit Reward(user, amount);
+        emit Reward(user, amount);
+    }
 }
-}
-
