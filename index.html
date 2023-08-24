@@ -5,64 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article Submission</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        textarea {
-            width: 100%;
-            height: 200px;
-            margin-bottom: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-    </style>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="container mt-4">
         <h1>Submit Your Article</h1>
+        <div id="apiKeyMenu">
+            <label for="apiKey">OpenAI API Key:</label>
+            <input type="text" id="apiKey" class="form-control">
+            <button onclick="hideApiKey()" class="btn btn-secondary mt-2">Hide</button>
+        </div>
         <h3>Upload File</h3>
-        <input type="file" id="fileInput" accept=".txt">
+        <input type="file" id="fileInput" accept=".txt" class="form-control">
         <h3>Or Type Your Article</h3>
-        <textarea id="articleText"></textarea>
-        <button onclick="submitArticle()">Submit</button>
+        <textarea id="articleText" class="form-control"></textarea>
+        <button id="submitButton" class="btn btn-primary mt-2">Submit</button>
+        <h3>Your Credit: <span id="userCredit">100 ETH</span></h3>
+        <h3>OpenAI Response:</h3>
+        <p id="openaiResponse"></p>
     </div>
-    <script>
-        function submitArticle() {
-            // Retrieve the file or typed text
-            const fileInput = document.getElementById('fileInput');
-            const articleText = document.getElementById('articleText');
-            
-            // Check if a file was uploaded
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-                
-                reader.onload = function(event) {
-                    const fileContent = event.target.result;
-                    // Here you would call the function to interact with the blockchain
-                    console.log(fileContent);
-                };
-                
-                reader.readAsText(file);
-            } else if (articleText.value) {
-                // Use the text from the text area
-                // Here you would call the function to interact with the blockchain
-                console.log(articleText.value);
-            } else {
-                alert('Please upload a file or type your article before submitting.');
-            }
-        }
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
-
-
+    <script src="web3.js"></script>
+    <script src="openai.js"></script>
 </body>
 </html>
