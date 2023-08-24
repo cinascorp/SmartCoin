@@ -58,5 +58,14 @@ contract SmartCoin {
 
         emit ArticleVerified(user, articleIndex);
     }
+    function rewardUser(address user, uint256 amount) public {
+    require(msg.sender == owner, "Only the owner can reward users");
+    require(tokenBalance[owner] >= amount, "Insufficient balance");
+    
+    tokenBalance[owner] -= amount;
+    tokenBalance[user] += amount;
+
+    emit Reward(user, amount);
+}
 }
 
