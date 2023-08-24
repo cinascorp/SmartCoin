@@ -1,7 +1,8 @@
 // Function to send the article to OpenAI
 function sendToOpenAI(articleContent) {
   const apiKey = document.getElementById('apiKey').value;
-  const prompt = "SmartCoin: " + articleContent;
+  const promptQuestion = "Please analyze this article and determine if it contains valid and logical information. If so, provide a brief summary and validation status.";
+  const prompt = "SmartCoin: " + promptQuestion + "\n\n" + articleContent;
 
   fetch("https://api.openai.com/v1/engines/text-davinci-003/completions", {
     method: "POST",
@@ -11,20 +12,26 @@ function sendToOpenAI(articleContent) {
     },
     body: JSON.stringify({
       prompt: prompt,
-      max_tokens: 100
+      max_tokens: 2000
     })
   })
   .then(response => response.json())
-   .then(data => {
+  .then(data => {
     const responseText = data.choices[0].text;
     document.getElementById('openaiResponse').innerText = responseText;
 
-    // Example logic to verify the article based on the OpenAI response
-    if (responseText.includes("valid")) { // Adjust this condition as needed
-      // Call the function in the SmartCoin contract to reward the user
-      rewardUser(); // You'll need to define this function in web3.js
+    // Analyze the response and decide whether to reward the user
+    if (responseText.includes("valid")) { // Change this condition as needed
+      const userAddress = web3.eth.accounts[0]; // Get the user's address from MetaMask
+      const rewardAmount = 10; // Set the reward amount as needed
+
+      // Call the rewardUser function to send the reward on the blockchain
+      rewardUser(userAddress, rewardAmount);
     }
   })
+  .catch(error => {
+    console.error("Error:", error);
+  });
 }
 
 // Function to submit the article
