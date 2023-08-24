@@ -352,20 +352,6 @@ async function displayUserCredit() {
   const balanceInEth = window.web3.utils.fromWei(balanceInWei, 'ether');
   document.getElementById('userCredit').innerText = `${balanceInEth} ETH`;
 }
-function rewardUser() {
-  const contract = new web3.eth.Contract(SmartCoinABI, SmartCoinAddress);
-  const userAddress = web3.eth.accounts[0]; // Get the user's address from MetaMask
-
-  // Call the function in the SmartCoin contract to reward the user
-  contract.methods.rewardUser(userAddress).send({ from: userAddress })
-    .then(receipt => {
-      console.log("Reward successful:", receipt);
-      // Update the user's credit display or other UI elements as needed
-    })
-    .catch(error => {
-      console.error("Error rewarding user:", error);
-    });
-}
 
 // rewarding user
 function rewardUser(userAddress, amount) {
@@ -378,5 +364,7 @@ function rewardUser(userAddress, amount) {
             console.error('An error occurred while sending the reward', error);
         });
 }
+
+
 
 // More functions to interact with the contract will go here
