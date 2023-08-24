@@ -15,13 +15,16 @@ function sendToOpenAI(articleContent) {
     })
   })
   .then(response => response.json())
-  .then(data => {
-    document.getElementById('openaiResponse').innerText = data.choices[0].text;
-    // Additional logic to handle the response, such as rewarding the user
+   .then(data => {
+    const responseText = data.choices[0].text;
+    document.getElementById('openaiResponse').innerText = responseText;
+
+    // Example logic to verify the article based on the OpenAI response
+    if (responseText.includes("valid")) { // Adjust this condition as needed
+      // Call the function in the SmartCoin contract to reward the user
+      rewardUser(); // You'll need to define this function in web3.js
+    }
   })
-  .catch(error => {
-    console.error("Error:", error);
-  });
 }
 
 // Function to submit the article
