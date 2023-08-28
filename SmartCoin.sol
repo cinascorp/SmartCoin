@@ -6,7 +6,7 @@ contract SmartCoin {
     string public constant name = "Smart Coin";
     string public constant symbol = "SMC";
     uint256 public constant decimals = 18;
-    uint256 public totalSupply = 80000000;
+    uint256 public totalSupply;
     mapping(address => uint256) public balanceOf;
 
     // Owner of the contract
@@ -75,3 +75,4 @@ contract SmartCoin {
         emit Reward(user, amount);
     }
 }
+
