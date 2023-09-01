@@ -75,4 +75,3 @@ contract SmartCoin {
         emit Reward(user, amount);
     }
 }
-
